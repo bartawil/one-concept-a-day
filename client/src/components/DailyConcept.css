@@ -1,0 +1,35 @@
+.container {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 2rem;
+    font-family: sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    width: 70%;
+    margin-right: 1rem;
+  }
+  
+  button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #646cff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #4c52d5;
+  }
+  
+  p {
+    margin-top: 1rem;
+  }
+  

@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "scripts": {
+  "dev": "concurrently \"cd server && uvicorn app.main:app --reload\" \"cd client && npm run dev\""
+  }
+
+}

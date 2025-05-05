@@ -1,0 +1,17 @@
+# Python
+venv/
+__pycache__/
+*.py[cod]
+
+# Node
+node_modules/
+dist/
+
+# Env
+.env
+
+# Vite/React
+frontend/dist/
+frontend/.vite/
+frontend/.next/
+frontend/.cache/
