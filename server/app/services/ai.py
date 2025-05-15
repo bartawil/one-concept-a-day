@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Function that sends a prompt to OpenRouter and returns the generated concept
 def generate_concept(category: str) -> str:
     prompt = f"""
     Give me a short, clear explanation of an interesting concept in the field of {category}.
