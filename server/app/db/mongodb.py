@@ -11,4 +11,4 @@ DB_NAME = os.getenv("MONGO_DB", "one_concept_a_day")
 
 # Initialize MongoDB client
 client = AsyncIOMotorClient(MONGO_URI)
-db = client[DB_NAME]
+db = client[DB_NAME] # Access the database by name

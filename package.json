@@ -1,9 +1,12 @@
 {
   "devDependencies": {
+    "@types/react-router-dom": "^5.3.3",
     "concurrently": "^9.1.2"
   },
   "scripts": {
-  "dev": "concurrently \"cd server && uvicorn app.main:app --reload\" \"cd client && npm run dev\""
+    "dev": "concurrently \"cd server && uvicorn app.main:app --reload\" \"cd client && npm run dev\""
+  },
+  "dependencies": {
+    "react-router-dom": "^7.6.1"
   }
-
 }

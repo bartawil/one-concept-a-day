@@ -1,11 +1,16 @@
-import DailyConcept from './components/DailyConcept';
-
+// client/src/App.tsx
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 function App() {
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '2rem' }}>
-      <DailyConcept />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
   );
 }
 
