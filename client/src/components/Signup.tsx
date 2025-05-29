@@ -1,32 +1,40 @@
 // client/src/components/Signup.tsx
 import { useState } from "react";
 import { createUser } from "../api/user";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
 
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [interests, setInterests] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      navigate("/daily");
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const parsedInterests = interests
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean); // removes empty strings
-
     const user = {
       username,
       email,
-      interests: parsedInterests,
+      password,
+      interests: interests.split(",").map(s => s.trim()),
     };
-
-    console.log("Sending user:", user); // DEBUG
 
     try {
       const result = await createUser(user);
       console.log("User created:", result);
+      localStorage.setItem("user", JSON.stringify(result));
       alert("User created successfully");
+      navigate("/daily");
     } catch (error) {
       console.error("Signup failed", error);
       alert("Failed to create user");
@@ -34,28 +42,40 @@ export default function Signup() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2 max-w-sm">
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Interests (comma separated)"
-        value={interests}
-        onChange={(e) => setInterests(e.target.value)}
-      />
-      <button type="submit">Sign Up</button>
-    </form>
+    <div className="p-4">
+      <button onClick={() => navigate(-1)} className="text-blue-600 mb-4 hover:underline">
+        ← Back
+      </button>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2 max-w-sm">
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Interests (comma separated)"
+          value={interests}
+          onChange={(e) => setInterests(e.target.value)}
+        />
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
   );
 }

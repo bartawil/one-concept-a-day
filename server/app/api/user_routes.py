@@ -4,10 +4,16 @@ from app.services.user_service import register_user, get_user, authenticate_user
 
 router = APIRouter()
 
-@router.post("/users", response_model=UserInDB)
+@router.post("/users", response_model=UserResponse)
 async def create_user(user: UserCreate):
     try:
-        return await register_user(user)
+        new_user = await register_user(user)
+        return UserResponse(
+            id=new_user.id,
+            username=new_user.username,
+            email=new_user.email,
+            interests=new_user.interests,
+        )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 

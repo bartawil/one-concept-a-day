@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import './DailyConcept.css';
 
@@ -6,6 +8,17 @@ function DailyConcept() {
   const [category, setCategory] = useState('');
   const [concept, setConcept] = useState('');
   const [loading, setLoading] = useState(false);
+  const storedUser = localStorage.getItem("user");
+  const username = storedUser ? JSON.parse(storedUser).username : "";
+  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      navigate("/login");
+    }
+  }, []);
 
   const fetchConcept = async () => {
     setLoading(true);
@@ -24,8 +37,22 @@ function DailyConcept() {
   };
 
   return (
+    
     <div className="container">
+      <button
+        onClick={() => {
+          localStorage.removeItem("user");
+          window.location.href = "/";
+        }}
+        className="absolute top-4 right-4 text-sm text-blue-600 hover:underline"
+      >
+        Logout
+      </button>
+
+      <h3 className="text-xl text-center">Hi {username}, here’s your daily concept:</h3>
+
       <div className="p-6 max-w-xl mx-auto bg-white rounded-2xl shadow-md space-y-4">
+
         <h2 className="text-2xl font-bold text-center">One Concept a Day</h2>
 
         <input
