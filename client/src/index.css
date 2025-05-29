@@ -15,6 +15,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+
 a {
   font-weight: 500;
   color: #646cff;

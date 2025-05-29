@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { loginUser } from "../api/user";
 import { useNavigate } from "react-router-dom";
+import AuthHeader from "./AuthHeader";
 
 
 export default function Login() {
@@ -24,9 +25,7 @@ export default function Login() {
 
   return (
     <div className="p-4">
-      <button onClick={() => navigate(-1)} className="text-blue-600 mb-4 hover:underline">
-        ← Back
-      </button>
+      <AuthHeader/>
       <form onSubmit={handleSubmit} className="flex flex-col gap-2 max-w-sm">
         <h2 className="text-xl font-bold mb-2">Login</h2>
         <input

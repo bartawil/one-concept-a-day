@@ -3,6 +3,7 @@ import { useState } from "react";
 import { createUser } from "../api/user";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import AuthHeader from "./AuthHeader";
 
 
 export default function Signup() {
@@ -43,9 +44,7 @@ export default function Signup() {
 
   return (
     <div className="p-4">
-      <button onClick={() => navigate(-1)} className="text-blue-600 mb-4 hover:underline">
-        ← Back
-      </button>
+      <AuthHeader/>
       <form onSubmit={handleSubmit} className="flex flex-col gap-2 max-w-sm">
         <input
           type="text"

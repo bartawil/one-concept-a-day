@@ -51,7 +51,8 @@ function DailyConcept() {
 
       <h3 className="text-xl text-center">Hi {username}, here’s your daily concept:</h3>
 
-      <div className="p-6 max-w-xl mx-auto bg-white rounded-2xl shadow-md space-y-4">
+      <div className="bg-white/10 backdrop-blur-lg p-8 rounded-3xl shadow-2xl w-full max-w-2xl mt-28 space-y-6">
+
 
         <h2 className="text-2xl font-bold text-center">One Concept a Day</h2>
 
