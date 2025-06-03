@@ -8,12 +8,6 @@
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
   }
   
-  input {
-    padding: 0.5rem;
-    font-size: 1rem;
-    width: 70%;
-    margin-right: 1rem;
-  }
   
   button {
     padding: 0.5rem 1rem;

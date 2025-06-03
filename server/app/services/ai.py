@@ -27,4 +27,5 @@ def generate_concept(category: str) -> str:
 
     response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=body)
     response.raise_for_status()
-    return response.json()["choices"][0]["message"]["content"].strip()
+    return response.json().get("choices", [{}])[0].get("message", {}).get("content", "").strip()
+
