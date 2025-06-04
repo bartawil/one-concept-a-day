@@ -17,7 +17,7 @@ def generate_concept(category: str) -> str:
     }
 
     body = {
-        "model": "meta-llama/llama-4-scout:free",
+        "model": "mistralai/mixtral-8x7b-instruct",
         "messages": [
             {"role": "system", "content": "You are a helpful assistant who explains concepts clearly."},
             {"role": "user", "content": prompt.strip()}

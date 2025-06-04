@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field
-from typing import Optional, List
+from typing import Dict, Optional, List
 
 
 # Model for creating a new user
@@ -20,6 +20,7 @@ class UserLogin(BaseModel):
 # Internal DB model
 class UserInDB(UserCreate):
     id: str
+    history: Optional[Dict[str, List[str]]] = Field(default_factory=dict)
 
 
 # Response model for frontend (no password)

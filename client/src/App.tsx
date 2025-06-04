@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import DailyConcept from "./components/DailyConcept";
 import LandingPage from "./components/LandingPage";
+import EditInterests from "./components/EditInterests";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/daily" element={<DailyConcept />} />
+        <Route path='edit-interests' element={<EditInterests />} />
       </Routes>
     </Router>
   );

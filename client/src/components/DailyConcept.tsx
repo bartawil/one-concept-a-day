@@ -1,88 +1,157 @@
-import { useEffect } from 'react';
+// DailyConcept.tsx
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import './DailyConcept.css';
+import useTypewriter from './useTypewriter';
+import EditInterests from './EditInterests';
+import { Settings } from "lucide-react";
 
 
 function DailyConcept() {
   const [category, setCategory] = useState('');
   const [concept, setConcept] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [term, setTerm] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const displayedConcept = useTypewriter(concept);
   const storedUser = localStorage.getItem("user");
   const username = storedUser ? JSON.parse(storedUser).username : "";
-  
+  const interests = storedUser ? JSON.parse(storedUser).interests : [];
   const navigate = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (!user) {
       navigate("/login");
+    } else if (interests.length > 0 && category === '') {
+      setCategory(interests[0]);
     }
   }, []);
 
   const fetchConcept = async () => {
-    setLoading(true);
+    setConcept("");
     try {
-      const response = await fetch(`http://localhost:8000/daily-concept?category=${encodeURIComponent(category)}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch concept');
-      }
+      const storedUser = localStorage.getItem("user");
+      if (!storedUser) return;
+      const user = JSON.parse(storedUser);
+      const userId = user.id;
+      const response = await fetch(
+        `http://localhost:8000/daily-concept?category=${encodeURIComponent(category)}&user_id=${userId}`
+      );
+      if (!response.ok) throw new Error("Failed to fetch concept");
       const data = await response.json();
-      setConcept(data.concept);
-    } catch (error) {
-      setConcept('Error fetching concept');
-    } finally {
-      setLoading(false);
+      setConcept(data.explanation);
+      setTerm(data.term);
+    } catch {
+      setConcept("Error fetching concept");
     }
   };
 
+  useEffect(() => {
+    if (category && !concept) {
+      fetchConcept();
+    }
+  }, [category]);
+
   return (
-    
-    <div className="container">
-      <button
-        onClick={() => {
-          localStorage.removeItem("user");
-          window.location.href = "/";
-        }}
-        className="absolute top-4 right-4 text-sm text-blue-600 hover:underline"
-      >
-        Logout
-      </button>
-
-      <h3 className="text-xl text-center">Hi {username}, here’s your daily concept:</h3>
-
-      <div className="bg-white/10 backdrop-blur-lg p-8 rounded-3xl shadow-2xl w-full max-w-2xl mt-28 space-y-6">
+    <div className="min-h-screen bg-black text-white font-sans px-4 pb-8 pt-24 flex flex-col">
+      <header className="w-full px-4 sm:px-6 py-4 flex flex-wrap justify-between items-center fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/70 border-b border-zinc-800">
+        <div className="flex justify-between w-full">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="p-2 text-gray-300 border border-gray-600 rounded hover:text-white hover:border-white transition"
+            aria-label="Edit Interests"
+          >
+            <Settings className="w-5 h-5" />
+          </button>
 
 
-        <h2 className="text-2xl font-bold text-center">One Concept a Day</h2>
+          <button
+            onClick={() => {
+              localStorage.removeItem("user");
+              window.location.href = "/";
+            }}
+            className="px-4 py-2 text-sm text-gray-300 border border-gray-600 rounded hover:text-white hover:border-white transition"
+          >
+            Logout
+          </button>
+        </div>
 
-        <input
-          type="text"
-          placeholder="Enter a topic (e.g. AI)"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded"
-        />
+      </header>
 
-        <button
-          onClick={fetchConcept}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-        >
-          Get Concept
-        </button>
+      <main className="flex-1 flex flex-col items-center justify-center w-full">
+        <div className="w-full max-w-xl text-center mb-10 animate-fade-in">
+          <h2 className="text-4xl md:text-5xl font-bold mt-8 mb-4 text-white">
+            Hi {username}!
+          </h2>
+          <p className="text-gray-400 text-lg">
+            Here's your concept for today based on your interests.
+          </p>
+        </div>
 
-        {loading ? (
-          <p className="text-center text-gray-500">Loading...</p>
-        ) : concept && (
-          <div className="bg-gray-100 p-4 rounded">
-            <strong className="block mb-2 text-gray-700">Concept:</strong>
-            <p className="text-gray-800">{concept}</p>
+        {displayedConcept && (
+          <div className="w-full max-w-xl mt-4 bg-zinc-900 p-6 rounded-2xl shadow-lg animate-fade-in">
+            <h4 className="text-md italic text-zinc-400 mb-3">Today’s Concept about {term}:</h4>
+            <p className="whitespace-pre-wrap leading-relaxed text-gray-300">
+              {displayedConcept}<span className="blinking-cursor"></span>
+            </p>
           </div>
         )}
-      </div>
+      </main>
+
+      {isModalOpen && (
+        <div className="modal-backdrop" onClick={() => setIsModalOpen(false)}>
+          <div className="modal-slide-in-left" onClick={(e) => e.stopPropagation()}>
+            <EditInterests isOpen={true} onClose={() => setIsModalOpen(false)} />
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        .blinking-cursor {
+          display: inline-block;
+          width: 1px;
+          background-color: white;
+          animation: blink 1s step-start infinite;
+        }
+        @keyframes blink {
+          50% { opacity: 0; }
+        }
+        @keyframes fade-in {
+          0% { opacity: 0; transform: translateY(10px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+          animation: fade-in 0.8s ease-out both;
+        }
+        .modal-backdrop {
+          position: fixed;
+          inset: 0;
+          z-index: 50;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          justify-content: flex-start;
+          align-items: stretch;
+          animation: backdrop-fade-in 0.2s ease-out forwards;
+        }
+        @keyframes backdrop-fade-in {
+          from { background-color: rgba(0, 0, 0, 0); }
+          to { background-color: rgba(0, 0, 0, 0.5); }
+        }
+        .modal-slide-in-left {
+          width: 100%;
+          max-width: 400px;
+          height: 100%;
+          background: #18181b;
+          border-right: 1px solid #3f3f46;
+          animation: slide-in-left 0.3s ease-out forwards;
+        }
+        @keyframes slide-in-left {
+          from { transform: translateX(-100%); }
+          to { transform: translateX(0); }
+        }
+      `}</style>
     </div>
-
-
   );
 }
 

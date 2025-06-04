@@ -13,7 +13,7 @@ export default function LandingPage() {
     setLoading(true);
     setConcept("");
     try {
-      const response = await fetch(`http://localhost:8000/daily-concept?category=${encodeURIComponent(category)}`);
+      const response = await fetch(`http://localhost:8000/get-concept?category=${encodeURIComponent(category)}`);
       if (!response.ok) throw new Error("Failed to fetch concept");
       const data = await response.json();
       console.log(data)

@@ -1,6 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from app.models.user_model import UserCreate, UserInDB, UserResponse, UserLogin
 from app.services.user_service import register_user, get_user, authenticate_user
+from app.db.user_repository import add_interest, remove_interest
+from fastapi import Body
 
 router = APIRouter()
 
@@ -32,3 +34,15 @@ async def login(user: UserLogin):
     if not authenticated_user:
         raise HTTPException(status_code=401, detail="Invalid email or password")
     return authenticated_user
+
+
+@router.post("/user/{user_id}/interests/add")
+async def add_user_interest(user_id: str, interest: str = Body(...)):
+    await add_interest(user_id, interest)
+    return {"status": "interest added"}
+
+
+@router.post("/user/{user_id}/interests/remove")
+async def remove_user_interest(user_id: str, interest: str = Body(...)):
+    await remove_interest(user_id, interest)
+    return {"status": "interest removed"}
