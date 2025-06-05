@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 
-export default function TopHeader() {
+export default function LandingHeader() {
   const navigate = useNavigate();
 
   return (
     <header className="w-full px-4 sm:px-6 py-4 flex flex-wrap justify-between items-center fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/70 border-b border-zinc-800">
-      <h1 className="text-lg font-semibold text-white tracking-wide mb-2 sm:mb-0" style={{ fontFamily: 'Poppins, sans-serif' }}>
-
+      <h1
+        className="text-lg text-white tracking-wide mb-2 sm:mb-0 averia-serif-libre-bold"
+      >
+        One Concept a Day
       </h1>
       <div className="flex space-x-2 sm:space-x-4 w-full sm:w-auto justify-end">
         <button

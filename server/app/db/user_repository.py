@@ -5,7 +5,7 @@ from app.models.user_model import UserCreate, UserInDB
 from bson import ObjectId
 from pymongo.errors import DuplicateKeyError
 import bcrypt
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 # Create a new user in the database
@@ -31,9 +31,8 @@ async def get_user_by_email(email: str) -> UserInDB | None:
 # Optional: Find a user by ID
 async def get_user_by_id(user_id: str) -> UserInDB | None:
     user_data = await db["users"].find_one({"_id": ObjectId(user_id)})
-    if user_data:
-        return UserInDB(id=str(user_data["_id"]), **user_data)
-    return None
+    return user_data
+
 
 
 
@@ -47,16 +46,21 @@ async def add_term_to_history(user_id: str, category: str, term: str):
     )
     
 
-
 async def save_daily_concept(user_id: str, category: str, term: str, explanation: str):
-    today = datetime.utcnow().strftime("%Y-%m-%d")
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     await db["users"].update_one(
         {"_id": ObjectId(user_id)},
-        {"$set": {f"daily.{today}": {
-            "category": category,
-            "term": term,
-            "explanation": explanation
-        }}}
+        {
+            "$set": {
+                "daily": {
+                    today: {
+                        "category": category,
+                        "term": term,
+                        "explanation": explanation
+                    }
+                }
+            }
+        }
     )
 
 

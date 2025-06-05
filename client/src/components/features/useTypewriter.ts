@@ -24,7 +24,7 @@ export default function useTypewriter(text: string, delay: number = 20) {
     type();
 
     return () => {
-      cancelled = true; // ביטול בטוח
+      cancelled = true;
     };
   }, [text, delay]);
 
