@@ -78,7 +78,7 @@ function Dashboard() {
         <div className="flex justify-between w-full">
           <button
             onClick={openModal}
-            className="px-4 py-2 text-base bg-[#4f4f65] text-white rounded-lg hover:bg-[#616176] cursor-pointer"
+            className="flex-1 sm:flex-none px-4 py-2 text-sm text-gray-300 border border-gray-600 rounded hover:text-white hover:border-white transition"
             aria-label="Edit Interests"
           >
             <Settings className="w-5 h-5" />
@@ -88,7 +88,7 @@ function Dashboard() {
               localStorage.removeItem("user");
               window.location.href = "/";
             }}
-            className="px-4 py-2 text-base bg-[#4f4f65] text-white rounded-lg hover:bg-[#616176] cursor-pointer"
+            className="flex-1 sm:flex-none px-4 py-2 text-sm text-gray-300 border border-gray-600 rounded hover:text-white hover:border-white transition"
           >
             Logout
           </button>

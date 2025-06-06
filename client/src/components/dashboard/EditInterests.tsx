@@ -62,7 +62,7 @@ export default function EditInterests({ isOpen, onClose }: Props) {
         />
         <button
           onClick={handleAdd}
-          className="px-3 py-2 bg-[#4f4f65] text-white rounded-lg hover:bg-[#616176] flex items-center justify-center"
+          className="flex-1 sm:flex-none px-3 py-2 text-sm text-gray-300 border border-gray-600 rounded hover:text-white hover:border-white transition"
           aria-label="Add Interest"
         >
           <PlusCircle size={20} /> {/* Add the Plus icon */}
