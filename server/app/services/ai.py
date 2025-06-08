@@ -6,18 +6,25 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def generate_concept(category: str) -> str:
+    if not category:
+        raise ValueError("Category is required")
+    
+    api_key = os.getenv("OPENROUTER_API_KEY")
+    if not api_key:
+        raise RuntimeError("Missing OpenRouter API key")
+    
     prompt = f"""
     Give me a short, clear explanation of an interesting concept in the field of {category}.
     Do not start with the name of the concept. The paragraph should be direct and beginner-friendly.
     """
 
     headers = {
-        "Authorization": f"Bearer {os.getenv('OPENROUTER_API_KEY')}",
+        "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
     }
 
     body = {
-        "model": "mistralai/mixtral-8x7b-instruct",
+        "model": os.getenv("OPENROUTER_MODEL"),
         "messages": [
             {"role": "system", "content": "You are a helpful assistant who explains concepts clearly."},
             {"role": "user", "content": prompt.strip()}
@@ -25,7 +32,13 @@ def generate_concept(category: str) -> str:
         "max_tokens": 150
     }
 
-    response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=body)
-    response.raise_for_status()
-    return response.json().get("choices", [{}])[0].get("message", {}).get("content", "").strip()
+    try:
+        response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=body)
+        response.raise_for_status()
+        content = response.json().get("choices", [{}])[0].get("message", {}).get("content", "").strip()
+        if not content:
+            raise ValueError("Empty response from model")
+        return content
+    except requests.exceptions.RequestException as e:
+        raise RuntimeError(f"Failed to fetch concept from model: {e}")
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { PlusCircle, Trash2 } from "lucide-react";
+import { addUserInterest, removeUserInterest } from "../../api/dashboard";
 
 interface Props {
   isOpen: boolean;
@@ -21,11 +22,7 @@ export default function EditInterests({ isOpen, onClose }: Props) {
       setInterests(updated);
       localStorage.setItem("user", JSON.stringify({ ...user, interests: updated }));
 
-      await fetch(`http://localhost:8000/user/${user.id}/interests/add`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(trimmed),
-      });
+      await addUserInterest(user.id, trimmed);
 
       setNewInterest("");
     }
@@ -36,11 +33,7 @@ export default function EditInterests({ isOpen, onClose }: Props) {
     setInterests(updated);
     localStorage.setItem("user", JSON.stringify({ ...user, interests: updated }));
 
-    await fetch(`http://localhost:8000/user/${user.id}/interests/remove`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(interest),
-    });
+    await removeUserInterest(user.id, interest);
   };
 
   return (
@@ -65,7 +58,7 @@ export default function EditInterests({ isOpen, onClose }: Props) {
           className="flex-1 sm:flex-none px-3 py-2 text-sm text-gray-300 border border-gray-600 rounded hover:text-white hover:border-white transition"
           aria-label="Add Interest"
         >
-          <PlusCircle size={20} /> {/* Add the Plus icon */}
+          <PlusCircle size={20} />
         </button>
       </div>
 

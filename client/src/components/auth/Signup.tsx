@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import AuthHeader from "./AuthHeader";
 import { createUser } from "../../api/user";
 
+import "../styles/Animations.css";
+
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -36,14 +38,12 @@ export default function Signup() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center px-4">
       <AuthHeader />
-
       <div className="flex flex-col md:flex-row items-center justify-center gap-12 w-full max-w-6xl mt-12 animate-fade-in">
         {/* Registration Form */}
         <form
           onSubmit={handleSubmit}
           className="flex-1 w-full max-w-md space-y-4 bg-zinc-900 p-10 rounded-2xl shadow-lg"
         >
-
           <input
             type="text"
             placeholder="Username"
@@ -82,29 +82,12 @@ export default function Signup() {
             Sign Up
           </button>
         </form>
-
         {/* Right Side Quote */}
         <div className="flex-1 text-center px-4">
           <h2 className="text-4xl md:text-5xl font-bold mt-8 mb-2 text-white text-center">Join the journey</h2>
           <p className="text-gray-400 text-lg">Start learning one concept a day</p>
         </div>
       </div>
-
-      <style>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fade-in {
-          animation: fade-in 0.6s ease-out both;
-        }
-      `}</style>
     </div>
   );
 }

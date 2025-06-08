@@ -7,6 +7,7 @@ import "../styles/Fonts.css";
 
 import useTypewriter from '../features/useTypewriter';
 import EditInterests from './EditInterests';
+import { getDailyConcept } from '../../api/dashboard';
 
 function Dashboard() {
   const [category, setCategory] = useState('');
@@ -44,11 +45,7 @@ function Dashboard() {
       if (!storedUser) return;
       const user = JSON.parse(storedUser);
       const userId = user.id;
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/daily-concept?category=${encodeURIComponent(category)}&user_id=${userId}`
-      );
-      if (!response.ok) throw new Error("Failed to fetch concept");
-      const data = await response.json();
+      const data = await getDailyConcept(userId, category);
       setConcept(data.explanation);
       setTerm(data.term);
     } catch {

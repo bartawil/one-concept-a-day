@@ -3,6 +3,7 @@ import useTypewriter from "../features/useTypewriter";
 import LandingHeader from "./LandingHeader";
 import "../styles/Animations.css";
 import "../styles/Fonts.css";
+import { getConceptByCategory } from "../../api/concept";
 
 
 export default function LandingPage() {
@@ -16,9 +17,7 @@ export default function LandingPage() {
     setLoading(true);
     setConcept("");
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/get-concept?category=${encodeURIComponent(category)}`);
-      if (!response.ok) throw new Error("Failed to fetch concept");
-      const data = await response.json();
+      const data = await getConceptByCategory(category);
       console.log(data)
       setConcept(data.concept);
     } catch {

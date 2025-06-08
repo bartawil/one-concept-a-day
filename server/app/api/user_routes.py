@@ -1,8 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Body
+
 from app.models.user_model import UserCreate, UserInDB, UserResponse, UserLogin
-from app.services.user_service import register_user, get_user, authenticate_user
+from app.services.user_service import register_user, authenticate_user
 from app.db.user_repository import add_interest, remove_interest
-from fastapi import Body
 
 router = APIRouter()
 
@@ -18,14 +18,6 @@ async def create_user(user: UserCreate):
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-
-
-@router.get("/users/{email}", response_model=UserResponse)
-async def read_user(email: str):
-    user = await get_user(email)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    return user
 
 
 @router.post("/login", response_model=UserResponse)

@@ -7,6 +7,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def generate_specific_concept(category: str, seen_terms: list[str]) -> dict:
+    if not category:
+        raise ValueError("Category is required")
+    
+    api_key = os.getenv("OPENROUTER_API_KEY")
+    if not api_key:
+        raise RuntimeError("Missing OpenRouter API key")
+    
     """
     Generates a specific concept and its explanation for a given category,
     excluding previously seen terms.
@@ -28,23 +35,29 @@ def generate_specific_concept(category: str, seen_terms: list[str]) -> dict:
     """
 
     headers = {
-        "Authorization": f"Bearer {os.getenv('OPENROUTER_API_KEY')}",
+        "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
     }
 
     body = {
-        "model": "mistralai/mixtral-8x7b-instruct",  
+        "model": os.getenv("OPENROUTER_MODEL"),
         "messages": [
             {"role": "system", "content": "You are a helpful assistant who explains specific concepts clearly."},
             {"role": "user", "content": prompt.strip()}
         ],
         "max_tokens": 300
     }
+    
+    
+    try:
+        response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=body)
+        response.raise_for_status()
+        content = response.json().get("choices", [{}])[0].get("message", {}).get("content", "").strip()
+        if not content:
+            raise ValueError("Empty response from model")
+    except requests.exceptions.RequestException as e:
+        raise RuntimeError(f"Failed to fetch concept from model: {e}")
 
-    response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=body)
-    response.raise_for_status()
-    content = response.json().get("choices", [{}])[0].get("message", {}).get("content", "").strip()
-    print(content)
 
     # Try parsing "Term: <term>\n<explanation>"
     match = re.search(r"Term:\s*(.+?)\n+(.+)", content, re.DOTALL)

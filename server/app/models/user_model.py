@@ -21,6 +21,7 @@ class UserLogin(BaseModel):
 class UserInDB(UserCreate):
     id: str
     history: Optional[Dict[str, List[str]]] = Field(default_factory=dict)
+    daily: Optional[Dict[str, Dict[str, str]]] = Field(default_factory=dict)
 
 
 # Response model for frontend (no password)

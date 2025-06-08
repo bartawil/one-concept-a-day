@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, HTTPException, Query
+
 from app.services.ai import generate_concept
 from app.services.daily_concept_service import get_daily_concept_service
 
@@ -12,4 +13,7 @@ def get_concept(category: str = Query(...)):
 
 @router.get("/daily-concept")
 async def get_specific_concept(category: str = Query(...), user_id: str = Query(...)):
-    return await get_daily_concept_service(user_id, category)
+    try:
+        return await get_daily_concept_service(user_id, category)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))

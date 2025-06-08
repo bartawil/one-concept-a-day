@@ -6,7 +6,7 @@ export interface UserCreate {
 }
   
 export async function createUser(user: UserCreate) {
-  const response = await fetch("http://localhost:8000/users/", {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export async function loginUser(credentials: {
   email: string;
   password: string;
 }) {
-  const response = await fetch("http://localhost:8000/login", {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

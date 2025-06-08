@@ -31,8 +31,9 @@ async def get_user_by_email(email: str) -> UserInDB | None:
 # Optional: Find a user by ID
 async def get_user_by_id(user_id: str) -> UserInDB | None:
     user_data = await db["users"].find_one({"_id": ObjectId(user_id)})
-    return user_data
-
+    if user_data:
+        return UserInDB(id=str(user_data["_id"]), **user_data)
+    return None
 
 
 
