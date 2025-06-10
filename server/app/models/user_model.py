@@ -29,3 +29,13 @@ class UserResponse(BaseModel):
     username: str
     email: EmailStr
     interests: Optional[List[str]] = []
+
+
+# Response model for frontend with JWT token
+class UserLoginResponse(BaseModel):
+    id: str
+    username: str
+    email: EmailStr
+    interests: Optional[List[str]] = []
+    access_token: str
+    token_type: str = "bearer"

@@ -2,7 +2,7 @@
 export interface UserCreate {
   username: string;
   email: string;
-  password: string;  // Now required on frontend too
+  password: string; 
   interests: string[];
 }
 
@@ -11,6 +11,8 @@ export interface UserResponse {
   username: string;
   email: string;
   interests: string[];
+  access_token: string;
+  token_type: string;
 }
   
 export async function createUser(user: UserCreate): Promise<UserResponse> {

@@ -66,12 +66,22 @@ async def save_daily_concept(user_id: str, category: str, term: str, explanation
 
 
 async def add_interest(user_id: str, interest: str):
+    # Check if user exists first
+    user = await get_user_by_id(user_id)
+    if not user:
+        raise ValueError("User not found")
+    
     await db["users"].update_one(
         {"_id": ObjectId(user_id)},
         {"$addToSet": {"interests": interest}}
     )
 
 async def remove_interest(user_id: str, interest: str):
+    # Check if user exists first
+    user = await get_user_by_id(user_id)
+    if not user:
+        raise ValueError("User not found")
+        
     await db["users"].update_one(
         {"_id": ObjectId(user_id)},
         {"$pull": {"interests": interest}}
