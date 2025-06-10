@@ -6,9 +6,8 @@ from typing import Dict, Optional, List
 class UserCreate(BaseModel):
     username: str = Field(..., min_length=3, max_length=50)
     email: EmailStr
-    password: Optional[str] = None
+    password: str = Field(..., min_length=6)  # Required and minimum length
     interests: Optional[List[str]] = Field(default_factory=list)
-
 
 
 # Model for login request

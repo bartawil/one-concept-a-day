@@ -18,7 +18,6 @@ export default function LandingPage() {
     setConcept("");
     try {
       const data = await getConceptByCategory(category);
-      console.log(data)
       setConcept(data.concept);
     } catch {
       setConcept("Error fetching concept");

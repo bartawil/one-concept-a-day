@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Body
 
-from app.models.user_model import UserCreate, UserInDB, UserResponse, UserLogin
+from app.models.user_model import UserCreate, UserResponse, UserLogin
 from app.services.user_service import register_user, authenticate_user
 from app.db.user_repository import add_interest, remove_interest
 

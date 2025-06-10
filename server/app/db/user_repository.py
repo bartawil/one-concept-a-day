@@ -3,7 +3,6 @@
 from app.db.mongodb import db
 from app.models.user_model import UserCreate, UserInDB
 from bson import ObjectId
-from pymongo.errors import DuplicateKeyError
 import bcrypt
 from datetime import datetime, timezone
 
