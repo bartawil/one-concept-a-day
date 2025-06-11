@@ -3,8 +3,8 @@ from fastapi import APIRouter, HTTPException, Body, Depends
 from app.models.user_model import UserCreate, UserResponse, UserLogin, UserLoginResponse
 from app.services.user_service import register_user, authenticate_user
 from app.db.user_repository import add_interest, remove_interest
-from app.middleware.auth import get_current_user
-from app.services.auth_service import create_access_token
+from app.security.auth_middleware import get_current_user
+from app.security.auth_service import create_access_token
 
 router = APIRouter()
 

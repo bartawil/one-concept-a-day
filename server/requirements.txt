@@ -6,3 +6,5 @@ motor
 requests 
 pydantic[email]
 pyjwt
+pytest
+pytest-asyncio

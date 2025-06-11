@@ -1,76 +1,121 @@
 # One Concept a Day
 
-A learning platform that delivers one educational concept per day based on your interests.
+**AI-Powered Learning Platform** - React + TypeScript + FastAPI + OpenRouter AI + MongoDB Atlas + AWS EC2
 
-## Overview
+A learning platform that generates personalized educational content using AI, demonstrating modern full-stack development with cloud architecture and security practices.
 
-This application helps users learn new concepts daily in their areas of interest. Users can register, select their learning interests, receive daily concept explanations, and track their learning progress.
+## Architecture Overview
 
-## Tech Stack
+- **Frontend:** React 18 + TypeScript with component-based architecture
+- **Backend:** FastAPI with async Python and layered service architecture  
+- **Database:** MongoDB Atlas with optimized queries and indexing
+- **AI Engine:** OpenRouter API integration with prompt engineering
+- **Infrastructure:** AWS EC2 deployment with environment management
+- **Security:** NoSQL injection and XSS attack prevention
 
-- **Frontend**: React + TypeScript + Vite + TailwindCSS
-- **Backend**: FastAPI + Python
-- **Database**: MongoDB
-- **AI**: Integration for concept generation
+## Core Technical Features
 
-## Quick Start
+- **Multi-Model AI Integration** - OpenRouter platform for LLM access and fallback mechanisms
+- **Cloud Database** - MongoDB Atlas with proper indexing and aggregation pipelines
+- **Security Testing** - Automated NoSQL injection and XSS attack simulation
+- **Service Architecture** - Scalable service layers with clean separation of concerns
+- **Type Safety** - TypeScript with Pydantic validation
 
-### Prerequisites
-- Node.js (v18+)
-- Python (3.11+)
-- MongoDB instance
+## System Architecture
 
-### Installation
-
-1. Clone and setup:
-```bash
-git clone <repo-url>
-cd one-concept-a-day
-npm install
+```
+Frontend (React/TS) ←→ FastAPI (Python) ←→ MongoDB Atlas (Cloud)
+                              ↓
+                    OpenRouter AI Services
+                              ↓
+                       AWS EC2 (Production)
 ```
 
-2. Backend setup:
-```bash
-cd server
-python -m venv venv311
-source venv311/bin/activate
-pip install -r requirements.txt
-```
+## Key Features
 
-3. Frontend setup:
-```bash
-cd ../client
-npm install
-```
-
-4. Environment configuration:
-
-- `server/.env` - Database and API keys
-- `client/.env` - API URL
-
-### Running
-
-Development mode (both frontend & backend):
-```bash
-npm run dev
-```
-
-Or separately:
-```bash
-npm run server  # Backend only
-npm run client  # Frontend only
-```
-
-Access:
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:8000
+- **AI Content Generation** - OpenRouter API integration for dynamic educational concepts
+- **Smart Personalization** - History tracking to avoid repetitive content
+- **Security Testing** - Comprehensive NoSQL injection and XSS prevention
+- **FARM Stack** - React 18 + TypeScript + FastAPI + MongoDB
+- **Production Ready** - Deployed on AWS EC2
 
 ## Project Structure
 
 ```
 one-concept-a-day/
-├── client/          # React frontend
-├── server/          # FastAPI backend
-├── package.json     # Root project configuration
-└── README.md
+├── client/                  # React TypeScript Frontend
+│   ├── src/
+│   │   ├── api/             # API client services
+│   │   ├── components/      # React components
+│   │   │   ├── auth/        # Authentication UI
+│   │   │   ├── dashboard/   # Main dashboard
+│   │   │   ├── features/    # Custom hooks
+│   │   │   └── home/        # Landing page
+├── server/                  # FastAPI Python Backend
+│   ├── app/
+│   │   ├── ai/             # AI service layer
+│   │   ├── api/            # REST endpoints
+│   │   ├── db/             # Database layer
+│   │   ├── models/         # Data models
+│   │   ├── security/       # Auth & security
+│   │   └── services/       # Business logic
+│   ├── tests/              # Comprehensive test suite
+│   ├── requirements.txt
 ```
+
+## Development Workflow
+
+```bash
+# Quick start - runs both frontend and backend
+npm run dev
+
+# Run services separately
+npm run client    # Frontend only
+npm run server    # Backend only
+
+# Install all dependencies
+npm run install:all
+
+# Build for production
+npm run build
+
+# Run tests
+npm test
+```
+
+## Tech Highlights
+
+**AI Integration:**
+- OpenRouter API for multi-model LLM access
+- Advanced prompt engineering with context awareness
+- AI safety measures and input sanitization
+
+**Security:**
+- Automated security testing with real attack simulations
+- JWT authentication with secure middleware
+- NoSQL injection prevention with comprehensive validation
+
+**Testing:**
+- 6 comprehensive test suites covering security, auth, and API
+- NoSQL injection attack simulation
+- XSS prevention testing
+- Authentication middleware validation
+
+**Architecture:**
+- Clean layered architecture (API → Services → Repository → Database)
+- Type-safe development with TypeScript and Pydantic
+- Repository pattern with MongoDB integration
+
+## Screenshots
+
+![Landing Page](./images/LandingPage.png)
+![Dashboard](./images/HomePage.png)
+
+## Live Demo
+
+**Production App:** AWS EC2 deployment (link in CV)  
+**Source Code:** https://github.com/bartawil/one-concept-a-day.git
+
+---
+
+Developed by Bar Tawil

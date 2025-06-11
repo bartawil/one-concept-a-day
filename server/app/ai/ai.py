@@ -1,7 +1,7 @@
 import os
 import requests
 from dotenv import load_dotenv
-from app.services.security import sanitize_ai_input
+from app.security.security import sanitize_ai_input
 
 # Load environment variables
 load_dotenv()

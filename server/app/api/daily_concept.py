@@ -2,9 +2,10 @@ from fastapi import APIRouter, HTTPException, Query, Depends, Request
 import time
 from collections import defaultdict
 
-from app.services.ai import generate_concept
+from app.ai.ai import generate_concept
 from app.services.daily_concept_service import get_daily_concept_service
-from app.middleware.auth import get_current_user
+from app.security.auth_middleware import get_current_user
+from app.security.security import sanitize_string_input, validate_object_id
 
 router = APIRouter()
 
@@ -37,8 +38,15 @@ def check_rate_limit(request: Request):
 @router.get("/get-concept")
 def get_concept(category: str = Query(...), request: Request = None):
     check_rate_limit(request)
-    concept = generate_concept(category)
-    return {"category": category, "concept": concept}
+    
+    # Sanitize category input
+    try:
+        sanitized_category = sanitize_string_input(category, max_length=50)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=f"Invalid category: {str(e)}")
+    
+    concept = generate_concept(sanitized_category)
+    return {"category": sanitized_category, "concept": concept}
 
 
 @router.get("/daily-concept")
@@ -47,11 +55,18 @@ async def get_specific_concept(
     user_id: str = Query(...),
     current_user: dict = Depends(get_current_user)
 ):
+    # Sanitize and validate inputs
+    try:
+        sanitized_category = sanitize_string_input(category, max_length=50)
+        validate_object_id(user_id)  # Validate user_id format
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=f"Invalid input: {str(e)}")
+    
     # Verify that the user can only access their own data
     if current_user["user_id"] != user_id:
         raise HTTPException(status_code=403, detail="Access denied")
         
     try:
-        return await get_daily_concept_service(user_id, category)
+        return await get_daily_concept_service(user_id, sanitized_category)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))

@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from app.db.user_repository import add_term_to_history, save_daily_concept, get_user_by_id
-from app.services.generate_specific_concept import generate_specific_concept
+from app.ai.generate_specific_concept import generate_specific_concept
 
 
 async def get_daily_concept_service(user_id: str, category: str):

@@ -1,7 +1,7 @@
 import bcrypt
 from app.models.user_model import UserCreate, UserInDB, UserLogin, UserResponse, UserLoginResponse
 from app.db.user_repository import get_user_by_email, create_user
-from app.services.auth_service import create_access_token
+from app.security.auth_service import create_access_token
 
 # Business logic: register a new user if they don't already exist
 async def register_user(user_data: UserCreate) -> UserInDB:
